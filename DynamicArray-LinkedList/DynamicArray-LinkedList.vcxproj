@@ -144,7 +144,7 @@
   <ItemGroup>
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="Node.h" />
-    <ClInclude Include="Storage.h" />
+    <ClInclude Include="DynamicArray.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp" />
