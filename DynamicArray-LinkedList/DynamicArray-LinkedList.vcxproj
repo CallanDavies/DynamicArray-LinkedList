@@ -143,7 +143,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="LinkedList.h" />
-    <ClInclude Include="Node.h" />
     <ClInclude Include="DynamicArray.h" />
   </ItemGroup>
   <ItemGroup>
