@@ -136,6 +136,29 @@ public:
 	// add a new value to the end of the list
 	void push_back(const T & value)
 	{
+		Node* node = new Node();
+		node->next = nullptr;
+		node->previous = nullptr;
+		node->value = value;
+
+	
+	}
+
+	// add a new value to the start of the list
+	void push_front(const T & value)
+	{
+
+	}
+
+	//remove the last element
+	void pop_back()
+	{
+
+	}
+
+	// remove the first element
+	void pop_front()
+	{
 
 	}
 
