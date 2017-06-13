@@ -9,10 +9,12 @@ void main()
 
 	myList2.push_back(22);
 	myList2.push_front(25);
-
-	for (auto i = myList.begin(); i != myList.end(); ++i)
+	if (myList2.empty())
 	{
-		std::cout << i.get() << std::endl;
+		std::cout << "List is empty!" << std::endl;
 	}
-
+	else
+	{
+		std::cout << "List is not empty!" << std::endl;
+	}
 }

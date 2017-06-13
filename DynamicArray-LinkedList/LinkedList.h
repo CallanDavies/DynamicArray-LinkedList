@@ -71,7 +71,11 @@ public:
 	//remove an element by its iterator
 	void erase(Iterator a_iterator)
 	{
-
+		m_elements = m_elements - 1;
+		Node<T>* temp = a_iterator;
+		temp->previous->next = temp->next;
+		temp->next->previous = temp->previous;
+		delete temp;
 	}
 
 
@@ -104,7 +108,7 @@ public:
 		// Loop through the new list nodes
 		for (int i = 0; i < m_elements; ++i)
 		{
-			Node* node = new Node();
+			Node<T>* node = new Node<T>();
 			if (i == 0)
 			{
 				m_last = node;
@@ -134,59 +138,75 @@ public:
 	T* last() { return m_last->value; }
 
 	// add a new value to the end of the list
-	void push_back(const T & value)
+	void push_back(const T & a_value)
 	{
-		Node<T>* temp = new Node();
-		temp->next = nullptr;
-		temp->previous = nullptr;
-		temp->value = value;
-
-		m_last = temp;
+		m_elements = m_elements + 1;
+		Node<T>* temp = new Node<T>();
+		temp->value = a_value;
+		temp->next = m_first;
+		temp->previous = m_first->previous;
+		temp->next->previous = temp;
+		temp->previous->next = temp;
 	}
 
 	// add a new value to the start of the list
-	void push_front(const T & value)
+	void push_front(const T & a_value)
 	{
-		Node<T>* temp = new Node();
-		temp->next = nullptr;
-    	temp->previous = nullptr;
-		temp->value = value;
-
-		m_first = temp;
+		m_elements = m_elements + 1;
+		Node<T>* temp = new Node<T>();
+		temp->value = a_value;
+		temp->next = m_first->next;
+		temp->previous = m_first;
+		temp->next->previous = temp;
+		temp->previous->next = temp;
 	}
 
 	//remove the last element
 	void pop_back()
 	{
-		delete m_last;
+		m_elements = m_elements - 1;
+		Node<T>* temp = m_first->previous;
+		temp->previous->next = temp->next;
+		temp->next->previous = temp->previous;
+		delete temp;
 	}
 
 	// remove the first element
 	void pop_front()
 	{
-		delete m_first;
+		m_elements = m_elements - 1;
+		Node<T>* temp = m_first->next;
+		temp->previous->next = temp->next;
+		temp->next->previous = temp->previous;
+		delete temp;
 	}
 
 	// return a Boolean, true if the list is empty, false otherwise
-	bool empty()
-	{
-		if (m_elements == 0)
-		{
-			return true;
-		}
-		return false;
-	}
+	bool empty() { return m_first->next == m_first; }
+	
 
 	//remove all elements from the list
 	void clear()
 	{
-
+		
 	}
 
 	// remove all elements with matching value
 	void remove(T* a_value)
 	{
-
+		Node<T>* temp = m_first->next;
+		while (temp != head)
+		{
+			Node<T>* next = temp->next;
+			if (temp->value == a_value)
+			{
+				temp->previous->next = temp->next;
+				temp->next->previous = temp->previous;
+				delete temp;
+				m_elements = m_elements - 1;
+			}
+			temp = next;
+		}
 	}
 	private:
 
