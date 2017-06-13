@@ -75,7 +75,7 @@ public:
 	}
 
 
-	// add a new value one-past the specigied iterator location
+	// add a new value one-past the specified iterator location
 	void Insert(T a_value, int a_iIndex)
 	{
 		// Step through and creat new node, linking 
@@ -136,30 +136,35 @@ public:
 	// add a new value to the end of the list
 	void push_back(const T & value)
 	{
-		Node* node = new Node();
-		node->next = nullptr;
-		node->previous = nullptr;
-		node->value = value;
+		Node<T>* temp = new Node();
+		temp->next = nullptr;
+		temp->previous = nullptr;
+		temp->value = value;
 
-	
+		m_last = temp;
 	}
 
 	// add a new value to the start of the list
 	void push_front(const T & value)
 	{
+		Node<T>* temp = new Node();
+		temp->next = nullptr;
+    	temp->previous = nullptr;
+		temp->value = value;
 
+		m_first = temp;
 	}
 
 	//remove the last element
 	void pop_back()
 	{
-
+		delete m_last;
 	}
 
 	// remove the first element
 	void pop_front()
 	{
-
+		delete m_first;
 	}
 
 	// return a Boolean, true if the list is empty, false otherwise

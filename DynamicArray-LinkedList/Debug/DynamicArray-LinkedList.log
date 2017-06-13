@@ -1,2 +1,16 @@
 ﻿  Source.cpp
-  DynamicArray-LinkedList.vcxproj -> C:\Users\s162338\Documents\DynamicArray-LinkedList\Debug\DynamicArray-LinkedList.exe
+c:\users\s162338\documents\dynamicarray-linkedlist\dynamicarray-linkedlist\linkedlist.h(154): error C2955: 'LinkedList<int>::Node': use of class template requires template argument list
+  c:\users\s162338\documents\dynamicarray-linkedlist\dynamicarray-linkedlist\linkedlist.h(9): note: see declaration of 'LinkedList<int>::Node'
+  c:\users\s162338\documents\dynamicarray-linkedlist\dynamicarray-linkedlist\linkedlist.h(151): note: while compiling class template member function 'void LinkedList<int>::push_front(const T &)'
+          with
+          [
+              T=int
+          ]
+  c:\users\s162338\documents\dynamicarray-linkedlist\dynamicarray-linkedlist\source.cpp(11): note: see reference to function template instantiation 'void LinkedList<int>::push_front(const T &)' being compiled
+          with
+          [
+              T=int
+          ]
+  c:\users\s162338\documents\dynamicarray-linkedlist\dynamicarray-linkedlist\source.cpp(7): note: see reference to class template instantiation 'LinkedList<int>' being compiled
+c:\users\s162338\documents\dynamicarray-linkedlist\dynamicarray-linkedlist\linkedlist.h(154): error C2514: 'LinkedList<int>::Node': class has no constructors
+  c:\users\s162338\documents\dynamicarray-linkedlist\dynamicarray-linkedlist\linkedlist.h(9): note: see declaration of 'LinkedList<int>::Node'
