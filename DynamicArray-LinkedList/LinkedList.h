@@ -85,8 +85,8 @@ public:
 		// Step through and creat new node, linking 
 		// and setting value
 		int iCount = 0;
-		Node<T>* current = m_first->next;
-		while (current != m_end && iCount != a_iIndex)
+		Node<T>* current = m_first;
+		while (current != m_last && iCount != a_iIndex)
 		{
 			++iCount;
 			current = current->next;
@@ -132,70 +132,97 @@ public:
 	int count() { return m_elements; }
 
 	//return the value of the first element
-	T* first() { return m_first->value; }
+	T& first() { return m_first->value; }
 
 	// return the value of the first element
-	T* last() { return m_last->value; }
+	T& last() { return m_last->value; }
 
 	// add a new value to the end of the list
 	void push_back(const T & a_value)
 	{
-		m_elements = m_elements + 1;
+		
 		Node<T>* temp = new Node<T>();
 		temp->value = a_value;
-		temp->next = m_first;
-		temp->previous = m_first->previous;
-		temp->next->previous = temp;
-		temp->previous->next = temp;
+		temp->next = nullptr;
+		temp->previous = m_last;
+		if (m_last != nullptr)
+		{
+			m_last->next = temp;
+		}
+		else
+			m_last = temp;
 	}
 
 	// add a new value to the start of the list
 	void push_front(const T & a_value)
 	{
-		m_elements = m_elements + 1;
+		
 		Node<T>* temp = new Node<T>();
 		temp->value = a_value;
-		temp->next = m_first->next;
-		temp->previous = m_first;
-		temp->next->previous = temp;
-		temp->previous->next = temp;
+		temp->previous = nullptr;
+		if (m_first != nullptr)
+		{
+			temp->next = m_first;
+		}
+		else if (m_first == nullptr)
+		{
+			m_first = temp;
+		}
+		
+			
+	
 	}
 
 	//remove the last element
 	void pop_back()
 	{
-		m_elements = m_elements - 1;
-		Node<T>* temp = m_first->previous;
-		temp->previous->next = temp->next;
-		temp->next->previous = temp->previous;
-		delete temp;
+	
+		m_last->previous = m_last;
+		m_last = nullptr;
 	}
 
 	// remove the first element
 	void pop_front()
 	{
-		m_elements = m_elements - 1;
-		Node<T>* temp = m_first->next;
-		temp->previous->next = temp->next;
-		temp->next->previous = temp->previous;
-		delete temp;
+
+		m_first = nullptr;
 	}
 
 	// return a Boolean, true if the list is empty, false otherwise
-	bool empty() { return m_first->next == m_first; }
+	bool empty() 
+	{ 
+		if (m_elements == 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		} 
+	}
 	
 
 	//remove all elements from the list
 	void clear()
 	{
-		
+		Node<T>* temp = m_first;
+		// Traverse the list and delete the node one by one from the head 
+		while (temp != NULL) {
+			// take out the head node 
+			m_first = m_first->next;
+			delete temp;
+			// update the head node 
+			temp = m_first;
+		}
+		// Reset the head and tail node
+		m_last = m_first = NULL;
 	}
 
 	// remove all elements with matching value
-	void remove(T* a_value)
+	void remove(T a_value)
 	{
 		Node<T>* temp = m_first->next;
-		while (temp != head)
+		while (temp != m_first)
 		{
 			Node<T>* next = temp->next;
 			if (temp->value == a_value)
@@ -203,7 +230,7 @@ public:
 				temp->previous->next = temp->next;
 				temp->next->previous = temp->previous;
 				delete temp;
-				m_elements = m_elements - 1;
+				
 			}
 			temp = next;
 		}
