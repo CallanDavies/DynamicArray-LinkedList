@@ -82,45 +82,90 @@ public:
 	// add a new value one-past the specified iterator location
 	void Insert(T a_value, int a_iIndex)
 	{
-		// Step through and creat new node, linking 
-		// and setting value
-		int iCount = 0;
-		Node<T>* current = m_first;
-		while (current != m_last && iCount != a_iIndex)
+		if (empty())// list is empty
 		{
-			++iCount;
-			current = current->next;
+			Node<T>* temp = new Node<T>();
+			m_first = temp;
+			m_last = temp;
+			temp->previous = nullptr;
+			temp->next = nullptr;
+			temp->value = a_value;
 		}
+		else // there is stuff inside the list
+		{
+			Node<T>* temp = new Node<T>();
+			temp = m_first;
 
-		Node<T>* temp = new Node<T>();
-		temp->value = a_value;
 
-		// linking 
-		temp->next = current;
-		temp->previous = current->previous;
-		current->previous->next = temp;
-		current->previous = temp;
+			for (int i = 0; i < a_iIndex; i++)//iterate up to the index
+			{
+				if (i > m_elements)// make sure we havent stepped over our list
+					return;
+				if (temp->next == nullptr) // make sure that the next is not a nullptr
+					return;
+
+				temp = temp->next;//set our current node in the list
+			}
+			temp->value = a_value; //set the value
+			
+			/*while (a_iIndex > temp->value && temp->next != m_last->next)
+			{
+				temp = temp->next;
+			}*/
+		}
 	}
 
 	LinkedList() {}
 	LinkedList (int startingElements) : m_elements(startingElements)
 	{
+		Node<T>* currentNode = m_first;
+		Node<T>* previousNode = nullptr;
+
+		
+
 		// Loop through the new list nodes
 		for (int i = 0; i < m_elements; ++i)
 		{
-			Node<T>* node = new Node<T>();
-			if (i == 0)
+			Node<T>* node = new Node<T>();//insert into the list
+			currentNode = node;
+			if (m_first == nullptr)// if we're at the first element
+			{
+				m_first = node;
+				currentNode->previous = nullptr;// set previous to null
+
+			}
+			else if (i == m_elements - 1)//we're at the end of our list
 			{
 				m_last = node;
-				// make it point to the first item
-				node->next = m_first;
+				currentNode->previous = previousNode;
+				previousNode->next = currentNode;
 			}
-			
-			if (m_first != nullptr)
+			else //anywhere in the middle
 			{
-				m_first->previous = node;
+				currentNode->previous = previousNode;
+				previousNode->next = currentNode;
 			}
+
+			previousNode = currentNode;
+			currentNode = currentNode->next;
+
 		}
+
+
+
+
+			//if (i == 0)
+			//{
+			//	m_last = node;
+			//	// make it point to the first item
+			//	node->next = m_first;
+			//}
+			//
+			//if (m_first != nullptr)
+			//{
+			//	m_first->previous = node;
+			//}
+		//}
 	}
 
 	~LinkedList()
@@ -142,15 +187,21 @@ public:
 	{
 		
 		Node<T>* temp = new Node<T>();
+		Node<T>* previous;
 		temp->value = a_value;
 		temp->next = nullptr;
 		temp->previous = m_last;
-		if (m_last != nullptr)
-		{
-			m_last->next = temp;
-		}
-		else
-			m_last = temp;
+	//	if (m_last != nullptr)
+	//	{
+	//		m_last->next = temp;
+	//	}
+	//	else
+		previous = m_last;
+		m_last = temp;
+		
+		previous->next = m_last;
+		m_last->previous = previous;
+
 	}
 
 	// add a new value to the start of the list
@@ -158,34 +209,34 @@ public:
 	{
 		
 		Node<T>* temp = new Node<T>();
+		Node<T>* next;
 		temp->value = a_value;
+		temp->next = m_first;
 		temp->previous = nullptr;
-		if (m_first != nullptr)
-		{
-			temp->next = m_first;
-		}
-		else if (m_first == nullptr)
-		{
-			m_first = temp;
-		}
 		
-			
-	
+		next = m_first;
+		m_first = temp;
+
+		next->previous = m_first;
+		m_first->next = next;
 	}
 
 	//remove the last element
 	void pop_back()
 	{
-	
-		m_last->previous = m_last;
+		Node<T>* temp = new Node<T>();
+		temp = m_last;
 		m_last = nullptr;
+		m_last = temp->previous;
 	}
 
 	// remove the first element
 	void pop_front()
 	{
-
+		Node<T>* temp = new Node<T>();
+		temp = m_first;
 		m_first = nullptr;
+		m_first = temp->next;
 	}
 
 	// return a Boolean, true if the list is empty, false otherwise
@@ -221,18 +272,16 @@ public:
 	// remove all elements with matching value
 	void remove(T a_value)
 	{
-		Node<T>* temp = m_first->next;
-		while (temp != m_first)
+		Node<T>* temp = m_first;
+		while (temp != m_last)
 		{
-			Node<T>* next = temp->next;
 			if (temp->value == a_value)
 			{
 				temp->previous->next = temp->next;
 				temp->next->previous = temp->previous;
-				delete temp;
-				
+				//temp = nullptr;
 			}
-			temp = next;
+			temp = temp->next;
 		}
 	}
 	private:
